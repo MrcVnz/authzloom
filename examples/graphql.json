@@ -1,0 +1,30 @@
+{
+  "policy": {
+    "action_id": "A-AUTHZ-GQL-001",
+    "program": "local-lab",
+    "asset": "http://127.0.0.1:8877",
+    "allowed_hosts": ["127.0.0.1"],
+    "aggression": 0,
+    "max_requests": 12,
+    "rate_per_second": 20,
+    "allowed_methods": ["GET", "POST"]
+  },
+  "sessions": {
+    "A": {"headers": {"X-User": "A"}},
+    "B": {"headers": {"X-User": "B"}},
+    "none": {"headers": {}}
+  },
+  "objects": {"A": {"id": "a-note"}, "B": {"id": "b-note"}},
+  "operation": {
+    "request": {
+      "method": "POST",
+      "url": "http://127.0.0.1:8877/graphql",
+      "body": {
+        "query": "mutation($id:ID!,$text:String!){updateNote(id:$id,text:$text){ok}}",
+        "variables": {"id": "{{object.id}}", "text": "authzloom-probe"}
+      }
+    },
+    "readback": {"method": "GET", "url": "http://127.0.0.1:8877/notes/{{object.id}}"},
+    "readback_assertion": {"path": "text", "equals": "authzloom-probe"}
+  }
+}

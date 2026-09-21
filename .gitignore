@@ -1,0 +1,14 @@
+.venv/
+.authzloom/
+.soak/
+build/
+dist/
+*.egg-info/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+burp-extension/build/
+capsule.redacted.*
+runtime-token
+.env
+*.log
