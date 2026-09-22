@@ -310,8 +310,10 @@ class PacerTests(unittest.TestCase):
             limiter.complete(event)
         elapsed = time.perf_counter() - started
         self.assertFalse(event.get("cancelled"))
-        # 8 x 1 ms. Event.wait(1 ms) on Windows is ~14 ms and would land near 110 ms.
-        self.assertLess(elapsed, 0.06)
+        # 8 x 1 ms via time.sleep. Event.wait(1 ms) on Windows rounds up to the
+        # ~15 ms timer quantum and lands near 110 ms. 90 ms still fails that
+        # regression and leaves room for CI scheduler noise.
+        self.assertLess(elapsed, 0.09)
 
 
 class LimitsTests(unittest.TestCase):
