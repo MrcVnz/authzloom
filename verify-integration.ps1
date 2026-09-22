@@ -17,7 +17,7 @@ from authzloom.mcp_server import TOOLS
 expected = {'authzloom_ingest', 'authzloom_plan', 'authzloom_run', 'authzloom_status', 'authzloom_export'}
 assert {tool['name'] for tool in TOOLS} == expected, {tool['name'] for tool in TOOLS}
 payload = '{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"tools/list\",\"params\":{}}\n'
-proc = subprocess.run([sys.executable, '-m', 'authzloom.mcp_server'], input=payload, text=True, capture_output=True)
+proc = subprocess.run([sys.executable, '-m', 'authzloom.cli', 'mcp'], input=payload, text=True, capture_output=True)
 assert proc.returncode == 0, proc.stderr
 message = json.loads(proc.stdout.splitlines()[0])
 assert {tool['name'] for tool in message['result']['tools']} == expected

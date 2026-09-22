@@ -28,12 +28,24 @@ jobs:
         shell: python
         run: |
           import json
+          import subprocess
+          import sys
           from authzloom.mcp_server import TOOLS
           expected = {
               "authzloom_ingest", "authzloom_plan", "authzloom_run",
               "authzloom_status", "authzloom_export",
           }
           assert {tool["name"] for tool in TOOLS} == expected
+          request = '{"jsonrpc":"2.0","id":1,"method":"tools/list","params":{}}\n'
+          process = subprocess.run(
+              [sys.executable, "-m", "authzloom.cli", "mcp"],
+              input=request,
+              text=True,
+              capture_output=True,
+              check=True,
+          )
+          response = json.loads(process.stdout.splitlines()[0])
+          assert {tool["name"] for tool in response["result"]["tools"]} == expected
       - name: Fake-clock benchmarks
         run: python -m authzloom.bench
 

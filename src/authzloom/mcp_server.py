@@ -19,11 +19,11 @@ from .redact import redact
 from .store import Store
 
 TOOLS = [
-    {"name": "authzloom_ingest", "description": "Register capture metadata or redact a header snapshot. Raw request bytes are rejected.", "inputSchema": {"type": "object", "properties": {"capture": {"type": "object"}}, "required": ["capture"]}},
-    {"name": "authzloom_plan", "description": "Validate a scenario and return its bounded authorization matrix", "inputSchema": {"type": "object", "properties": {"scenario": {"type": "object"}}, "required": ["scenario"]}},
-    {"name": "authzloom_run", "description": "Execute an approved scenario and save a redacted evidence capsule", "inputSchema": {"type": "object", "properties": {"scenario": {"type": "object"}}, "required": ["scenario"]}},
-    {"name": "authzloom_status", "description": "List AuthzLoom runs", "inputSchema": {"type": "object", "properties": {"limit": {"type": "integer"}, "offset": {"type": "integer"}}}},
-    {"name": "authzloom_export", "description": "Return a redacted evidence capsule", "inputSchema": {"type": "object", "properties": {"run_id": {"type": "string"}}, "required": ["run_id"]}},
+    {"name": "authzloom_ingest", "description": "Register capture metadata or redact a header snapshot. Raw request bytes are rejected.", "inputSchema": {"type": "object", "properties": {"capture": {"type": "object"}}, "required": ["capture"]}, "annotations": {"readOnlyHint": False, "destructiveHint": False, "idempotentHint": False}},
+    {"name": "authzloom_plan", "description": "Validate a scenario and return its bounded authorization matrix", "inputSchema": {"type": "object", "properties": {"scenario": {"type": "object"}}, "required": ["scenario"]}, "annotations": {"readOnlyHint": True, "destructiveHint": False, "idempotentHint": True}},
+    {"name": "authzloom_run", "description": "Execute an approved scenario and save a redacted evidence capsule", "inputSchema": {"type": "object", "properties": {"scenario": {"type": "object"}}, "required": ["scenario"]}, "annotations": {"readOnlyHint": False, "destructiveHint": True, "idempotentHint": False}},
+    {"name": "authzloom_status", "description": "List AuthzLoom runs", "inputSchema": {"type": "object", "properties": {"limit": {"type": "integer"}, "offset": {"type": "integer"}}}, "annotations": {"readOnlyHint": True, "destructiveHint": False, "idempotentHint": True}},
+    {"name": "authzloom_export", "description": "Return a redacted evidence capsule", "inputSchema": {"type": "object", "properties": {"run_id": {"type": "string"}}, "required": ["run_id"]}, "annotations": {"readOnlyHint": True, "destructiveHint": False, "idempotentHint": True}},
 ]
 
 SUPPORTED_PROTOCOL_VERSIONS = {"2024-11-05", "2025-03-26", "2025-06-18"}

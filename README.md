@@ -83,8 +83,18 @@ You can run the module directly too:
 AuthzLoom includes an MCP server:
 
 ```powershell
-./.venv/Scripts/authzloom-mcp.exe
+./.venv/Scripts/authzloom.exe mcp
 ```
+
+For an installed registry package, the canonical package launcher is:
+
+```bash
+uvx authzloom mcp
+```
+
+`authzloom-mcp` remains available as a compatibility entry point, but catalogs
+and managed launchers should identify the `authzloom` package and invoke the
+`mcp` subcommand.
 
 MCP communicates over standard input and output. If you start it by hand, it
 will appear to wait silently. That is expected. Normally, your MCP client
@@ -95,7 +105,7 @@ starts and controls the process:
   "mcpServers": {
     "authzloom": {
       "command": "C:/absolute/path/authzloom/.venv/Scripts/python.exe",
-      "args": ["-m", "authzloom.mcp_server"],
+      "args": ["-m", "authzloom.cli", "mcp"],
       "env": {
         "AUTHZLOOM_DATA_DIR": "C:/absolute/path/authzloom/.authzloom"
       }

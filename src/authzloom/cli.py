@@ -55,6 +55,7 @@ def parser() -> argparse.ArgumentParser:
     s.add_argument("--host", default="127.0.0.1")
     s.add_argument("--port", type=int, default=8891)
     s.add_argument("--token")
+    sub.add_parser("mcp")
     plan_p = sub.add_parser("plan")
     plan_p.add_argument("scenario")
     plan_p.add_argument("--explain", action="store_true")
@@ -93,6 +94,11 @@ def main(argv: list[str] | None = None) -> int:
             parser().error("the following arguments are required: command")
     root = Path(args.data_dir)
     try:
+        if args.command == "mcp":
+            from .mcp_server import serve_stdio
+
+            serve_stdio()
+            return 0
         if args.command == "serve":
             token = args.token or os.environ.get("AUTHZLOOM_TOKEN") or secrets.token_urlsafe(32)
             if not (args.token or os.environ.get("AUTHZLOOM_TOKEN")):
