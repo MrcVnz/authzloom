@@ -91,7 +91,7 @@ def main(argv: list[str] | None = None) -> int:
             print(json.dumps(_diagnostics(), indent=2))
             return 0
         if args.command is None:
-            parser().error("the following arguments are required: command")
+            args.command = "mcp"
     root = Path(args.data_dir)
     try:
         if args.command == "mcp":

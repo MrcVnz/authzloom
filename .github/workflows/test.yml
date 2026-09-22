@@ -46,6 +46,15 @@ jobs:
           )
           response = json.loads(process.stdout.splitlines()[0])
           assert {tool["name"] for tool in response["result"]["tools"]} == expected
+          bare = subprocess.run(
+              [sys.executable, "-m", "authzloom.cli"],
+              input=request,
+              text=True,
+              capture_output=True,
+              check=True,
+          )
+          bare_response = json.loads(bare.stdout.splitlines()[0])
+          assert {tool["name"] for tool in bare_response["result"]["tools"]} == expected
       - name: Fake-clock benchmarks
         run: python -m authzloom.bench
 

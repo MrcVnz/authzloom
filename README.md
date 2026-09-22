@@ -89,12 +89,13 @@ AuthzLoom includes an MCP server:
 For an installed registry package, the canonical package launcher is:
 
 ```bash
-uvx authzloom mcp
+uvx authzloom
 ```
 
-`authzloom-mcp` remains available as a compatibility entry point, but catalogs
-and managed launchers should identify the `authzloom` package and invoke the
-`mcp` subcommand.
+The explicit `uvx authzloom mcp` form and the `authzloom-mcp` entry point remain
+available for compatibility. Catalogs and managed launchers should identify the
+`authzloom` package; invoking the package without a CLI subcommand starts MCP
+over standard input and output.
 
 MCP communicates over standard input and output. If you start it by hand, it
 will appear to wait silently. That is expected. Normally, your MCP client

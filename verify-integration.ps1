@@ -21,6 +21,10 @@ proc = subprocess.run([sys.executable, '-m', 'authzloom.cli', 'mcp'], input=payl
 assert proc.returncode == 0, proc.stderr
 message = json.loads(proc.stdout.splitlines()[0])
 assert {tool['name'] for tool in message['result']['tools']} == expected
+bare = subprocess.run([sys.executable, '-m', 'authzloom.cli'], input=payload, text=True, capture_output=True)
+assert bare.returncode == 0, bare.stderr
+bare_message = json.loads(bare.stdout.splitlines()[0])
+assert {tool['name'] for tool in bare_message['result']['tools']} == expected
 "@
 if ($LASTEXITCODE -ne 0) { throw 'MCP tool surface failed' }
 
